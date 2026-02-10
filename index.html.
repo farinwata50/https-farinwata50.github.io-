@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="ha">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farin Wata - Payment Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hidden { display: none; }
+        .page-transition { animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .service-card { @apply flex flex-col items-center bg-white p-3 rounded-3xl shadow-sm border; }
+        /* Sabon salo don icons su zama blue */
+        .icon-box { @apply w-16 h-16 bg-blue-600 rounded-3xl flex items-center justify-center text-3xl text-white shadow-md; }
+        .input-style { @apply w-full p-4 bg-white border rounded-2xl mb-5 outline-none focus:ring-2 focus:ring-blue-300; }
+        .single-pin-input { @apply w-full h-16 bg-gray-100 rounded-xl text-center text-4xl font-bold border-2 focus:border-blue-500 outline-none tracking-[15px]; }
+        .page-bg { @apply min-h-screen bg-blue-50; }
+    </style>
+</head>
+<body class="bg-blue-50 font-sans">
+
+
+    <div id="dashboardPage" class="page-bg">
+        <div class="p-5 bg-white shadow-sm flex justify-between items-center">
+            <h2 class="text-3xl font-extrabold text-blue-700 tracking-tight">Farin <span class="text-gray-800">Wata</span></h2>
+            <div class="flex gap-4">
+                <a href="mailto:farinwata0001@gmail.com"><i class="fa-solid fa-envelope text-red-500 text-xl"></i></a>
+            </div>
+        </div>
+        
+        <div class="m-4 p-6 bg-blue-700 rounded-[30px] text-white shadow-lg flex justify-between items-center">
+            <div>
+                <p class="text-xs opacity-80 uppercase tracking-widest">Main Wallet</p>
+                <h1 class="text-3xl font-bold mt-1">₦8,464.00</h1>
+            </div>
+            <div class="text-right border-l pl-4 border-blue-400">
+                <p class="text-xs opacity-80 uppercase">Account</p>
+                <p class="font-bold text-sm">8168602681</p>
+                <p class="text-xs opacity-80">Palmpay</p>
+            </div>
+        </div>
+
+
+        <div class="p-4 grid grid-cols-3 gap-4">
+            <div onclick="openService('fundPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-money-bill-wave"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">FUND</span>
+            </div>
+            <div onclick="openService('dataPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-signal"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">DATA</span>
+            </div>
+            <div onclick="openService('airtimePage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-phone-volume"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">AIRTIME</span>
+            </div>
+            <div onclick="openService('cablePage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-tv"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">CABLE</span>
+            </div>
+            <div onclick="openService('billPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-lightbulb"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">BILL</span>
+            </div>
+            <div onclick="openService('ratelPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-satellite-dish"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">RATEL</span>
+            </div>
+            <div onclick="openService('examsPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">EXAMS</span>
+            </div>
+            <div onclick="openService('kiraniPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-phone-alt"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">KIRANI</span>
+            </div>
+            <div onclick="openService('smilePage')" class="service-card">
+                <div class="icon-box"><i class="fa-regular fa-smile-beam"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">SMILE</span>
+            </div>
+            <div onclick="openService('airtimetocashPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-exchange-alt"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">AIRTIMETOCASH</span>
+            </div>
+            <div onclick="openService('ninPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-fingerprint"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">NIN</span>
+            </div>
+            <div onclick="openService('datacardPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-qrcode"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">DATACARD</span>
+            </div>
+            <div onclick="openService('alphaPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-shield-alt"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">ALPHA</span>
+            </div>
+            <div onclick="openService('bvnPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-id-card-alt"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">BVN</span>
+            </div>
+            <div onclick="openService('settingsPage')" class="service-card">
+                <div class="icon-box"><i class="fa-solid fa-cog"></i></div>
+                <span class="text-[10px] mt-2 font-bold text-gray-700 uppercase text-center">SETTINGS</span>
+            </div>
+        </div>
+
+
+        <div class="fixed bottom-0 left-0 right-0 bg-white p-4 flex justify-around shadow-inner border-t">
+            <div class="text-center text-blue-700"><i class="fa-solid fa-home text-xl"></i><p class="text-xs">Home</p></div>
+            <div class="text-center text-gray-500"><i class="fa-solid fa-globe text-xl"></i><p class="text-xs">Web</p></div>
+            <div class="text-center text-gray-500"><i class="fa-solid fa-exchange-alt text-xl"></i><p class="text-xs">Transactions</p></div>
+            <a href="https://wa.me/2348089042755" target="_blank" class="text-center text-gray-500"><i class="fa-brands fa-whatsapp text-xl"></i><p class="text-xs">Whatsapp</p></a>
+        </div>
+        <div class="h-20"></div>
+    </div>
+
+
+    <div id="pinModal" class="hidden fixed inset-0 bg-black/60 flex items-end justify-center z-50">
+        <div class="bg-white w-full rounded-t-[40px] p-8 text-center">
+            <h2 class="text-xl font-bold mb-2">Saka PIN Guda 4</h2>
+            <div class="my-8">
+                <input type="text" id="mainPinInput" inputmode="numeric" maxlength="4" placeholder="****" class="single-pin-input" oninput="validatePinInput(this)">
+            </div>
+            <button onclick="finalPay()" class="w-full bg-blue-700 text-white p-4 rounded-2xl font-bold">TABBATAR</button>
+            <button onclick="closePin()" class="mt-4 text-gray-400 text-sm font-bold uppercase">Soke</button>
+        </div>
+    </div>
+
+
+    <div id="genericPage" class="hidden page-bg page-transition">
+        <div class="p-5 flex items-center gap-4 bg-white shadow-sm">
+            <i onclick="goHome()" class="fa-solid fa-arrow-left text-xl text-gray-700"></i>
+            <h2 id="genericTitle" class="text-lg font-bold uppercase">Sabis</h2>
+        </div>
+        <div class="p-6">
+            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Account/Lamba</label>
+            <input type="number" placeholder="Saka lambar" class="input-style">
+            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Adadin Kudi</label>
+            <select class="input-style">
+                <option>Zabi kudi...</option>
+                <option>₦500</option>
+                <option>₦1,000</option>
+                <option>₦2,000</option>
+            </select>
+            <button onclick="showPinModal()" class="w-full bg-blue-700 text-white p-4 rounded-2xl font-bold">CI GABA</button>
+        </div>
+    </div>
+
+
+    <script>
+        function openService(pageId) {
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('genericPage').classList.remove('hidden');
+            document.getElementById('genericTitle').innerText = pageId.replace('Page', '').toUpperCase();
+        }
+
+
+        function goHome() {
+            document.getElementById('genericPage').classList.add('hidden');
+            document.getElementById('dashboardPage').classList.remove('hidden');
+        }
+
+
+        function showPinModal() { 
+            document.getElementById('pinModal').classList.remove('hidden');
+            const pinInput = document.getElementById('mainPinInput');
+            pinInput.value = '';
+            pinInput.focus();
+        }
+        
+        function closePin() { 
+            document.getElementById('pinModal').classList.add('hidden'); 
+        }
+
+
+        function validatePinInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+
+        function finalPay() { 
+            const pinValue = document.getElementById('mainPinInput').value;
+            
+            if(pinValue.length === 4) {
+                alert("An biya cikin nasara!"); 
+                location.reload();
+            } else {
+                alert("Da fatan za a saka PIN guda 4");
+            }
+        }
+    </script>
+</body>
+</html>
