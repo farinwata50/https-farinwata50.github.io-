@@ -1,11 +1,232 @@
-!
-            document.getElementById('servicePage').classList.add('hidden');
-            document.getElementById('dashboardPage').classList.remove('hidden');
+<!DOCTYPE html>
+<html lang="ha">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farin Wata - VTU Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Wannan zai hana shafukan gaurayuwa */
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        .page { 
+            display: none; 
+            height: 100vh; 
+            overflow-y: auto; 
+        }
+        .page.active { display: block; }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 448px;
+            margin: 0 auto;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            border-top: 1px solid #f3f4f6;
+            z-index: 50;
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center;
+            color: #2563eb; font-size: 11px; font-weight: bold; cursor: pointer;
+        }
+        .service-box { cursor: pointer; transition: transform 0.2s; }
+        .service-box:active { transform: scale(0.95); }
+
+        /* Tsarin akwatinan banki */
+        .bank-card {
+            background: #fff;
+            border: 1px dashed #2563eb;
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+
+<div class="max-w-md mx-auto bg-white min-h-screen shadow-lg relative">
+
+    <div id="loginPage" class="page active p-6 text-center">
+        <div class="mt-10">
+            <img src="https://via.placeholder.com/100" alt="User Profile" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-100">
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Hi, User</h1>
+            <p class="text-gray-500 mb-6">Using the trusted App Farin Wata</p>
+            
+            <div class="space-y-4 mb-6">
+                <input type="text" id="loginUsername" placeholder="Username or Gmail" class="w-full p-4 rounded-full border border-gray-300 bg-gray-50 text-center">
+                <input type="password" id="loginPassword" placeholder="Password" class="w-full p-4 rounded-full border border-gray-300 bg-gray-50 text-center">
+            </div>
+            
+            <div class="flex justify-between text-sm text-blue-600 mb-6 px-2">
+                <a href="#">Forgot Password</a>
+                <a href="#">Switch Account</a>
+            </div>
+            
+            <button onclick="handleLogin()" class="w-full bg-blue-600 text-white rounded-full py-4 font-bold text-lg mb-4">SIGN IN</button>
+            
+            <i class="fas fa-fingerprint text-blue-600 text-5xl mb-8 block"></i>
+            
+            <p class="text-gray-600 mb-4">CONTACT US</p>
+            <div class="flex justify-center gap-8 text-2xl text-gray-700 mb-8">
+                <a href="mailto:farinwata0002@gmail.com"><i class="fas fa-envelope cursor-pointer text-red-500"></i></a>
+                <a href="tel:+2348168602681"><i class="fas fa-phone-alt cursor-pointer text-blue-500"></i></a>
+                <a href="https://wa.me/2348168602681"><i class="fab fa-whatsapp cursor-pointer text-green-500"></i></a>
+            </div>
+            
+            <p class="text-sm text-gray-600">Don't have an account? <a href="#" onclick="showPage('registerPage')" class="text-blue-600 font-semibold">Register</a></p>
+        </div>
+    </div>
+
+    <div id="registerPage" class="page p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center mt-10">Create Account</h1>
+        <div class="space-y-4 mb-6">
+            <div class="grid grid-cols-2 gap-2">
+                <input type="text" id="regFirstName" placeholder="First Name" class="w-full p-3 rounded-xl border border-gray-300">
+                <input type="text" id="regLastName" placeholder="Last Name" class="w-full p-3 rounded-xl border border-gray-300">
+            </div>
+            <input type="text" id="regUsername" placeholder="Username" class="w-full p-3 rounded-xl border border-gray-300">
+            <input type="email" id="regEmail" placeholder="Gmail" class="w-full p-3 rounded-xl border border-gray-300">
+            <input type="number" id="regPhone" placeholder="Phone Number" class="w-full p-3 rounded-xl border border-gray-300">
+            <input type="text" id="regCity" placeholder="City / State" class="w-full p-3 rounded-xl border border-gray-300">
+            <input type="password" id="regPassword" placeholder="Password (6 characters)" class="w-full p-3 rounded-xl border border-gray-300">
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" class="w-full p-3 rounded-xl border border-gray-300">
+        </div>
+        <button onclick="handleRegister()" class="w-full bg-blue-600 text-white rounded-full py-3 font-bold text-lg mb-4">REGISTER</button>
+        <p class="text-center text-sm text-gray-600">Already have an account? <a href="#" onclick="showPage('loginPage')" class="text-blue-600 font-semibold">Sign In</a></p>
+    </div>
+
+    <div id="dashboard" class="page p-4 bg-gray-50 pb-24">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <p class="text-xs text-gray-500">Welcome back,</p>
+                <h2 class="text-lg font-bold" id="userDisplayName">User</h2>
+            </div>
+            <button onclick="logout()" class="text-red-500 text-sm font-bold"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+
+        <div class="bg-blue-600 rounded-3xl p-6 text-white mb-4 shadow-lg">
+            <div class="flex justify-between items-center mb-4">
+                <div><p class="text-xs opacity-80">Wallet Balance</p><p class="text-3xl font-bold">₦8,464.00</p></div>
+                <div class="text-right"><p class="text-xs opacity-80">Commission</p><p class="text-xl font-semibold">₦0.00</p></div>
+            </div>
+            <div class="flex gap-2">
+                <button class="bg-white text-blue-600 rounded-full py-2 w-full text-sm font-bold">ADD MONEY</button>
+                <button class="bg-blue-800 text-white rounded-full py-2 w-full text-sm font-bold">WITHDRAW</button>
+            </div>
+        </div>
+
+        <h2 class="font-bold text-gray-800 mb-3 px-2 text-sm">FUND YOUR WALLET (VIRTUAL ACCOUNTS)</h2>
+        <div class="px-2 mb-6">
+            <div class="bank-card"><div><p class="text-[10px] text-gray-500 font-bold">MONIEPOINT</p><p class="text-sm font-bold text-blue-700">6234567890</p></div><i class="far fa-copy text-gray-400"></i></div>
+            <div class="bank-card"><div><p class="text-[10px] text-gray-500 font-bold">PALMPAY</p><p class="text-sm font-bold text-blue-700">8168602681</p></div><i class="far fa-copy text-gray-400"></i></div>
+            <div class="bank-card"><div><p class="text-[10px] text-gray-500 font-bold">OPAY</p><p class="text-sm font-bold text-blue-700">7051234567</p></div><i class="far fa-copy text-gray-400"></i></div>
+            <div class="bank-card"><div><p class="text-[10px] text-gray-500 font-bold">WEMA BANK</p><p class="text-sm font-bold text-blue-700">0123456789</p></div><i class="far fa-copy text-gray-400"></i></div>
+            <div class="bank-card"><div><p class="text-[10px] text-gray-500 font-bold">FIDELITY BANK</p><p class="text-sm font-bold text-blue-700">6012345678</p></div><i class="far fa-copy text-gray-400"></i></div>
+            <div class="bank-card"><div><p class="text-[10px] text-gray-500 font-bold">STERLING BANK</p><p class="text-sm font-bold text-blue-700">0071234567</p></div><i class="far fa-copy text-gray-400"></i></div>
+            <div class="bank-card"><div><p class="text-[10px] text-gray-500 font-bold">KUDA BANK</p><p class="text-sm font-bold text-blue-700">2012345678</p></div><i class="far fa-copy text-gray-400"></i></div>
+        </div>
+
+        <h2 class="font-bold text-gray-800 mb-4 px-2">OUR SERVICES</h2>
+        <div class="grid grid-cols-3 gap-3 text-center px-1 mb-6">
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-signal text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">DATA</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-phone text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">AIRTIME</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-tv text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">CABLE</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-lightbulb text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">BILL</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-satellite-dish text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">RATEL</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-graduation-cap text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">EXAMS</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-phone-alt text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">KIRANI</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="far fa-smile-beam text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">SMILE</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-exchange-alt text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">CASH</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-fingerprint text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">NIN</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-qrcode text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">CARD</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-shield-alt text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">ALPHA</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-id-card text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">BVN</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-cog text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">SETTINGS</p></div>
+            <div class="service-box bg-white p-4 rounded-2xl shadow-sm border border-gray-50"><i class="fas fa-user text-blue-600 text-2xl"></i><p class="text-[10px] mt-2 font-bold text-gray-600">PROFILE</p></div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="showPage('dashboard')"><i class="fas fa-home"></i><span>Home</span></div>
+            <div class="nav-item"><i class="fas fa-th-large"></i><span>Menu</span></div>
+            <div class="nav-item"><i class="fas fa-history"></i><span>Transaction</span></div>
+            <div class="nav-item"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+            targetPage.classList.add('active');
+            targetPage.scrollTop = 0;
+        }
+    }
+
+    function handleRegister() {
+        const user = document.getElementById('regUsername').value;
+        const email = document.getElementById('regEmail').value;
+        const pass = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('confirmPassword').value;
+
+        if (user && email && pass) {
+            if (pass !== confirm) {
+                alert("Passwords do not match!");
+                return;
+            }
+            // Ajiye bayanan a LocalStorage
+            localStorage.setItem('vtu_user', user);
+            localStorage.setItem('vtu_email', email);
+            localStorage.setItem('vtu_pass', pass);
+            
+            alert("Registration Successful! Please Login.");
+            showPage('loginPage');
+        } else {
+            alert("Please fill all fields correctly!");
+        }
+    }
+
+    function handleLogin() {
+        const userInput = document.getElementById('loginUsername').value;
+        const passInput = document.getElementById('loginPassword').value;
+
+        const savedUser = localStorage.getItem('vtu_user');
+        const savedEmail = localStorage.getItem('vtu_email');
+        const savedPass = localStorage.getItem('vtu_pass');
+
+        if (!savedUser) {
+            alert("No account found. Please Register first!");
+            return;
         }
 
-        function showPinModal() { 
-            const number = document.getElementById('targetNumber').value;
-            const amount = document.getElementById('amountSelect').value;
-            if(number === "" || amount === "Zabi kudi...") {
-                alert("Da fatan za a cika lambar da adadin kudi");
-                
+        if ((userInput === savedUser || userInput === savedEmail) && passInput === savedPass) {
+            document.getElementById('userDisplayName').innerText = savedUser;
+            showPage('dashboard');
+        } else {
+            alert("Kuskure: Gmail/Username ko Password bai yi daidai ba!");
+        }
+    }
+
+    function logout() {
+        document.getElementById('loginUsername').value = "";
+        document.getElementById('loginPassword').value = "";
+        showPage('loginPage');
+    }
+</script>
+
+</body>
+</html>
